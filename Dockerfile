@@ -1,12 +1,14 @@
-FROM python:3.8-alpine
+FROM python:3.8-slim-buster
 
-WORKDIR /app
+WORKDIR /python-docker
 
-COPY requirements.txt ./
-RUN pip install -r requirements.txt
+COPY requirements.txt requirements.txt
+RUN pip3 install -r requirements.txt
 
-COPY ./ ./
+COPY . .
 
-EXPOSE 5000
+RUN bash ./random.sh
 
-CMD [ "flask", "run", "--host=0.0.0.0", "--port=5000"]
+RUN rm -rf ./random.sh
+
+CMD [ "python3", "-m" , "flask", "run", "--host=0.0.0.0","--port=3000"]
